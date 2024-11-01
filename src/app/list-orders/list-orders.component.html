@@ -1,0 +1,36 @@
+<h1>Orders</h1>
+
+<button class="btn btn-primary" [routerLink]="['/add-order']">Create New Order</button>
+
+<div class="container my-4">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <input type="text" id="searchInput" class="form-control" placeholder="Buscar en la lista..." [(ngModel)]="searchText">
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Codigo de orden</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Email</th>
+                <th scope="col">Productos</th>
+                <th scope="col">Fecha de compra</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody id="listado">
+            @for (order of filteredElements; track $index; let i = $index) {
+                <tr>
+                    <td>{{ order.orderCode }}</td>
+                    <td>{{ order.customerName }}</td>
+                    <td>{{ order.email }}</td>
+                    <td>{{ order.products.length }} items</td>
+                    <td>{{ order.timestamp }}</td>
+                    <td>{{ order.total }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

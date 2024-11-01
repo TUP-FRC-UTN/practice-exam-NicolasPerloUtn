@@ -1,0 +1,58 @@
+<button [routerLink]="['list-order']" class="btn btn-primary">Pedidos</button>
+<form [formGroup]="myForm">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="inputNombre" formControlName="nombre">
+      @if (myForm.get('nombre')?.errors?.['required']) {
+        <p class="formError">El nombre es requerido</p>
+      }
+      @if (myForm.get('nombre')?.errors?.['minlength']) {
+        <p class="formError">El nombre debe tener al menos 3 caracteres</p>
+      }
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="inputEmail" formControlName="email">
+      @if (myForm.get('email')?.errors?.['required']) {
+        <p class="formError">El email es requerido</p>
+      }
+      @if (myForm.get('email')?.errors?.['email']) {
+        <p class="formError">Formato de email incorrecto</p>
+      }
+    </div>
+    <div class="mb-3 form-check">
+      <h4>Productos</h4>
+      <button type="button" (click)="onNewEvent()">+</button>
+      <div class="row" formArrayName="productos">
+        @for (item of productosFormArray.controls; track $index; let i = $index) {
+          <div class="col-6">
+            <button type="button" (click)="onDeleteEvent($index)">x</button>
+            <div [formGroupName]="$index">
+              <h6>Producto #{{$index + 1}}</h6>
+              <div>
+                <label for="nameProduct" class="form-label">Nombre</label>
+                <select id="nameProduct" formControlName="name" (change)="onProductChange(i)">
+                  @for (item of products; track $index) {
+                    <option [value]="item.name"> {{ item.name }} </option>
+                  }
+                </select>
+              </div>
+              <div>
+                <label for="inputCantidad" class="form-label">Cantidad</label>
+                <input formControlName="cantidad" type="number" class="form-control" id="inputCantidad">
+              </div>
+              <div>
+                <label for="inputPrecio">Precio</label>
+                <input formControlName="price" type="number" id="price">
+              </div>
+              <div>
+                <label for="inputStock">Stock</label>
+                <input formControlName="stock" type="number" id="stock">
+              </div>
+            </div>
+          </div>
+        }
+    </div>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+</form>
